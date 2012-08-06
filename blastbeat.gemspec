@@ -15,5 +15,5 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Blastbeat::VERSION
 
-  gem.add_dependency("zmq")
+  gem.add_dependency("ffi-rzmq")
 end

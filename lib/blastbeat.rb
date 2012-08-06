@@ -1,32 +1,23 @@
 require "blastbeat/version"
-require 'zmq'
+require 'ffi-rzmq'
 
 module BlastBeat
   class Node
-    def initialize(server, nodename)
-      context = ZMQ::Context.new()
-      @socket = context.socket(ZMQ::DEALER)
+    def initialize(server, nodename, threads=1)
+      @context = ZMQ::Context.create(threads)
+      @socket = @context.socket(ZMQ::DEALER)
       @socket.setsockopt(ZMQ::IDENTITY, nodename)
       @socket.connect(server)
     end
 
     def recv
-      parts = []
-      parts << @socket.recv
-      if not @socket.getsockopt(ZMQ::RCVMORE)
-        return nil
-      end
-      parts << @socket.recv
-      if not @socket.getsockopt(ZMQ::RCVMORE)
-        return nil
-      end
-      parts << @socket.recv
+        parts = []
+        @socket.recv_strings(parts)
+        parts
     end
 
     def send(sid, msg_type, msg_body='')
-      @socket.send(sid, ZMQ::SNDMORE)
-      @socket.send(msg_type, ZMQ::SNDMORE)
-      @socket.send(msg_body)
+      @socket.send_strings([sid, msg_type, msg_body])
     end
 
     def uwsgi(pkt)
