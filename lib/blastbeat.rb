@@ -8,8 +8,6 @@ module BlastBeat
       @socket = context.socket(ZMQ::DEALER)
       @socket.setsockopt(ZMQ::IDENTITY, nodename)
       @socket.connect(server)
-      # send a gratuitous pong
-      send('', 'pong')
     end
 
     def recv
