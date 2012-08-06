@@ -1,9 +1,8 @@
 require "blastbeat/version"
 require 'zmq'
 
-module Blastbeat
-  # Your code goes here...
-  class BlastBeat
+module BlastBeat
+  class Node
     def initialize(server, nodename)
       context = ZMQ::Context.new()
       @socket = context.socket(ZMQ::DEALER)
