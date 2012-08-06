@@ -1,6 +1,6 @@
 # Blastbeat
 
-TODO: Write a gem description
+This is a tiny module for easy integration with the BlastBeat server
 
 ## Installation
 
@@ -18,7 +18,16 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+# connect to a BlastBeat server
+blastbeat = BlastBeat::Node.new('tcp://192.168.173.5:5000', 'FOOBAR1')
+
+# send a message to it
+blastbeat.send('', 'pong')
+
+# receive a message
+sid, msg_type, msg_body = blastbeat.recv
+```
 
 ## Contributing
 
